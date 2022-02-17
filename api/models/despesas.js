@@ -16,8 +16,22 @@ module.exports = (sequelize, DataTypes) => {
   despesas.init({
     descricao: DataTypes.STRING,
     valor: DataTypes.DECIMAL,
-    data: DataTypes.DATEONLY
-  }, {
+    data: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        isDate: {
+          args: true,
+          msg: 'Data inválida'
+        }}
+    },
+    categoria: {
+      type: DataTypes.ENUM,
+      values: ['Alimentação', 'Saúde', 'Moradia', 'Transporte', 'Educação', 'Lazer', 'Imprevistos', 'Outras'],
+      validate: {
+        len: [2,15]
+      }}
+    }, 
+    {
     sequelize,
     modelName: 'despesas',
   });
