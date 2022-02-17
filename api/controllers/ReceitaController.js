@@ -2,8 +2,12 @@ const database = require('../models')
 
 class ReceitaController {
 	static async listaTodasReceitas(req, res) {
+		const { descricao } = req.query
+		const where = {}
+		descricao ? where.descricao = descricao : null
+
 		try {
-			const lista = await database.receitas.findAll()
+			const lista = await database.receitas.findAll({ where: { ...where }})
 			return res.status(200).json(lista)
 		} catch (error) {
 			return res.status(500).json(error.message)
